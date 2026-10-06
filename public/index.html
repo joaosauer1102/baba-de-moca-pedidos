@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Baba de Moça</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-area">
+            <h1>Baba de Moça</h1>
+            <p>Sistema de Gestão de Pedidos</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="setor">Selecione o Setor:</label>
+                <select id="setor" required>
+                    <option value="" disabled selected>Escolha seu setor...</option>
+                    <optgroup label="Administração">
+                        <option value="admin">Administração Geral (Admin)</option>
+                    </optgroup>
+                    <optgroup label="Lojas">
+                        <option value="loja_matriz">Loja Matriz</option>
+                        <option value="loja_jardim">Jardim das Américas</option>
+                        <option value="loja_pantanal">Shopping Pantanal</option>
+                        <option value="loja_varzea">Várzea Grande Shopping</option>
+                    </optgroup>
+                    <optgroup label="Produção e Estoque">
+                        <option value="camara_fria">Câmara Fria</option>
+                        <option value="prod_fabrica">Produção Fábrica</option>
+                        <option value="prod_matriz">Produção Matriz</option>
+                        <option value="prod_docinhos">Produção Docinhos</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="codigo">Código de Usuário:</label>
+                <input type="text" id="codigo" placeholder="Ex: 00 ou 01" required>
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" placeholder="Sua senha" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Entrar</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const setor = document.getElementById('setor').value;
+            const codigo = document.getElementById('codigo').value;
+            const senha = document.getElementById('senha').value;
+            const errorDiv = document.getElementById('errorMessage');
+
+            errorDiv.textContent = 'Entrando...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ setor, codigo, senha })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    localStorage.setItem('usuarioLogado', JSON.stringify(data));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorDiv.textContent = data.message || 'Credenciais inválidas!';
+                }
+            } catch (err) {
+                console.error(err);
+                errorDiv.textContent = 'Erro ao conectar com o servidor.';
+            }
+        });
+    </script>
+</body>
+</html>

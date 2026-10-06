@@ -1,0 +1,216 @@
+{
+  "produtos": [
+    {
+      "id": 1,
+      "categoria": "Tortas",
+      "nome": "Torta Brigadeiro",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    },
+    {
+      "id": 2,
+      "categoria": "Tortas",
+      "nome": "Torta Bombom",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    },
+    {
+      "id": 3,
+      "categoria": "Tortas",
+      "nome": "Torta Abacaxi com Coco",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    },
+    {
+      "id": 4,
+      "categoria": "Tortas",
+      "nome": "Torta Dois Amores",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    },
+    {
+      "id": 5,
+      "categoria": "Tortas",
+      "nome": "Torta Quatro Leites",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    },
+    {
+      "id": 6,
+      "categoria": "Sobremesas",
+      "nome": "Pave Paulista",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ]
+    },
+    {
+      "id": 7,
+      "categoria": "Sobremesas",
+      "nome": "Cassata de Bombom",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ]
+    },
+    {
+      "id": 8,
+      "categoria": "Sobremesas",
+      "nome": "Banana Caramelada",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ]
+    },
+    {
+      "id": 9,
+      "categoria": "Tortas Salgadas",
+      "nome": "Empadao de Frango",
+      "tamanhos": [
+        "Pequeno",
+        "Grande"
+      ]
+    },
+    {
+      "id": 10,
+      "categoria": "Tortas Salgadas",
+      "nome": "Empadao de Palmito",
+      "tamanhos": [
+        "Pequeno",
+        "Grande"
+      ]
+    },
+    {
+      "id": 1790636906219,
+      "categoria": "Tortas",
+      "nome": "Torta Casadinho",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ]
+    }
+  ],
+  "pedidosLojas": [
+    {
+      "id": 1001,
+      "loja": "Loja Matriz",
+      "data": "28/09/2026",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Bombom N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Bombom Mini",
+          "qtd": 2
+        }
+      ]
+    },
+    {
+      "id": 1790637364944,
+      "loja": "Loja Matriz",
+      "data": "28/09/2026, 20:16:04",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro - N°1",
+          "qtd": 4
+        },
+        {
+          "nome": "Cassata de Bombom - 700g",
+          "qtd": 3
+        },
+        {
+          "nome": "Torta Dois Amores - N°2",
+          "qtd": 1
+        },
+        {
+          "nome": "Torta Brigadeiro - Mini",
+          "qtd": 6
+        },
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        }
+      ]
+    },
+    {
+      "id": 1790637991874,
+      "loja": "Shopping Pantanal",
+      "data": "28/09/2026, 20:26:31",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro - N°2",
+          "qtd": 3
+        },
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Abacaxi com Coco - Mini",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Dois Amores - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Casadinho - Mini",
+          "qtd": 3
+        },
+        {
+          "nome": "Cassata de Bombom - 350g",
+          "qtd": 3
+        },
+        {
+          "nome": "Empadao de Frango - Grande",
+          "qtd": 3
+        }
+      ]
+    },
+    {
+      "id": 1790637991875,
+      "loja": "Loja Matriz",
+      "data": "29/09/2026, 12:08:49",
+      "status": "Finalizado",
+      "itens": [
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Brigadeiro - Mini",
+          "qtd": 4
+        },
+        {
+          "nome": "Torta Brigadeiro - N°1",
+          "qtd": 5
+        }
+      ]
+    }
+  ],
+  "pedidosProducao": [],
+  "caminhoesDespachados": []
+}
