@@ -1,481 +1,1267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Baba de Moça</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        /* Estilos base */
-        aside nav ul li { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: background 0.3s; }
-        aside nav ul li:hover { background-color: #631212; }
-        .sessao { display: none; } .sessao.active { display: block; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; border-radius: 6px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; } th { background-color: #8B1E1E; color: white; }
-        .btn-action { background: #8B1E1E; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px; }
-        .btn-action:hover { filter: brightness(0.9); }
-        .btn-abrir { background: #333; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
-        .form-control { margin-bottom: 15px; } .form-control label { display: block; margin-bottom: 5px; font-weight: 600; color: #631212; font-size: 14px;}
-        .form-control input, .form-control select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;}
-        .grid-filtros { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #FCE8E8; padding: 15px; border-radius: 6px; margin-bottom: 15px;}
-        
-        /* Badges de Status */
-        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; display: inline-block; }
-        .st-recebido { background: #e2e3e5; color: #383d41; }
-        .st-producao { background: #cce5ff; color: #004085; }
-        .st-enviado { background: #d4edda; color: #155724; }
-        .st-finalizado { background: #28a745; color: #fff; }
-        .st-cancelado { background: #dc3545; color: #fff; }
+      .custom-select-wrapper {
+        position: relative;
+        width: 100%;
+      }
+      .custom-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 999;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .custom-dropdown li {
+        padding: 10px 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 14px;
+        color: #333;
+      }
+      .custom-dropdown li:hover {
+        background-color: #fce8e8;
+        color: #8b1e1e;
+        font-weight: 600;
+      }
+      aside nav ul li {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      aside nav ul li:hover {
+        background-color: #631212;
+      }
+      .sessao {
+        display: none;
+      }
+      .sessao.active {
+        display: block;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+      th {
+        background-color: #8b1e1e;
+        color: white;
+      }
+      .btn-action {
+        background: #8b1e1e;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+      }
+      .btn-action:hover {
+        filter: brightness(0.9);
+      }
+      .btn-abrir {
+        background: #333;
+        color: white;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .form-control {
+        margin-bottom: 15px;
+      }
+      .form-control label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #631212;
+        font-size: 14px;
+      }
+      .form-control input,
+      .form-control select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .grid-filtros {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        background: #fce8e8;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
 
-        /* Modal do Pedido e Impressão */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: #fff; padding: 30px; border-radius: 8px; width: 100%; max-width: 600px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-        .lista-itens { list-style: none; padding: 0; } .lista-itens li { padding: 10px; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
-        
-        @media print {
-            body * { visibility: hidden; }
-            #modalPedido, #modalPedido * { visibility: visible; }
-            #modalPedido { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: white; align-items: flex-start; padding: 0; }
-            .modal-content { max-width: 100%; box-shadow: none; padding: 20px; border: none; }
-            .btn-close, .btn-imprimir { display: none !important; }
+      /* Badges de Status e Setores */
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+      }
+      .st-recebido {
+        background: #e2e3e5;
+        color: #383d41;
+      }
+      .st-producao {
+        background: #cce5ff;
+        color: #004085;
+      }
+      .st-enviado {
+        background: #d4edda;
+        color: #155724;
+      }
+      .st-finalizado {
+        background: #28a745;
+        color: #fff;
+      }
+      .st-cancelado {
+        background: #dc3545;
+        color: #fff;
+      }
+      .tag-setor {
+        background: #f3d1d1;
+        color: #8b1e1e;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: bold;
+      }
+
+      /* Modal do Pedido e Impressão */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-content {
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 600px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .lista-itens {
+        list-style: none;
+        padding: 0;
+      }
+      .lista-itens li {
+        padding: 10px;
+        border-bottom: 1px dashed #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
         }
+        #modalPedido,
+        #modalPedido * {
+          visibility: visible;
+        }
+        #modalPedido {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: white;
+          align-items: flex-start;
+          padding: 0;
+        }
+        .modal-content {
+          max-width: 100%;
+          box-shadow: none;
+          padding: 20px;
+          border: none;
+        }
+        .btn-close,
+        .btn-imprimir {
+          display: none !important;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="dashboard-container">
-        <aside>
-            <div class="sidebar-header">Baba de Moça</div>
-            <nav id="menuLateral">
-                <ul><li onclick="mostrarSessao('boas-vindas')">Início</li></ul>
-            </nav>
-        </aside>
-        <main>
-            <header class="dash-header">
-                <h2 id="welcomeTitle">Carregando...</h2>
-                <button id="btnLogout" class="btn-action" style="background: #333;">Sair</button>
-            </header>
-            
-            <div class="dash-content" id="mainContentArea">
-                <div id="boas-vindas" class="sessao active">
-                    <div style="background: white; padding: 30px; border-radius: 8px;">
-                        <h3>Bem-vindo ao sistema de pedidos!</h3>
-                        <p style="color: #666;">Selecione uma opção no menu lateral para começar.</p>
-                    </div>
-                </div>
+      <aside>
+        <div class="sidebar-header">Baba de Moça</div>
+        <nav id="menuLateral">
+          <ul>
+            <li onclick="mostrarSessao('boas-vindas')">Início</li>
+          </ul>
+        </nav>
+      </aside>
+      <main>
+        <header class="dash-header">
+          <h2 id="welcomeTitle">Carregando...</h2>
+          <button id="btnLogout" class="btn-action" style="background: #333">
+            Sair
+          </button>
+        </header>
 
-                <!-- LOJAS: EMITIR PEDIDO -->
-                <div id="aba-loja-pedido" class="sessao">
-                    <h3 style="color: #8B1E1E; margin-bottom: 15px;">Emitir Novo Pedido</h3>
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                        <form id="formAdicionarItem" style="background: white; padding: 20px; border-radius: 8px; flex: 1; min-width: 300px;" onsubmit="adicionarAoCarrinho(event)">
-                            <div class="grid-filtros">
-                                <div class="form-control" style="margin-bottom:0;">
-                                    <label>Filtrar Categoria:</label>
-                                    <select id="filtroCatLoja" onchange="filtrarTelas('filtroCatLoja', 'buscaLoja', 'lojaProdutoSelect')"></select>
-                                </div>
-                                <div class="form-control" style="margin-bottom:0;">
-                                    <label>Pesquisar:</label>
-                                    <input type="text" id="buscaLoja" placeholder="Nome do produto..." oninput="filtrarTelas('filtroCatLoja', 'buscaLoja', 'lojaProdutoSelect')">
-                                </div>
-                            </div>
-                            <div class="form-control">
-                                <label>Selecionar Produto e Tamanho:</label>
-                                <select id="lojaProdutoSelect" required><option value="">Carregando produtos...</option></select>
-                            </div>
-                            <div class="form-control">
-                                <label>Quantidade:</label>
-                                <input type="number" id="lojaQtd" min="1" value="1" required>
-                            </div>
-                            <button type="submit" class="btn-action" style="background: #333; width: 100%;">+ Adicionar à Lista</button>
-                        </form>
-
-                        <div style="background: white; padding: 20px; border-radius: 8px; flex: 1; min-width: 300px; display: flex; flex-direction: column;">
-                            <h4 style="margin-bottom: 10px; color: #333;">Lista do Pedido</h4>
-                            <ul id="listaCarrinho" class="lista-itens" style="flex: 1; margin-bottom: 15px; background: #f9f9f9; padding: 10px; border-radius: 4px; min-height: 120px;">
-                                <li style="color: #999; justify-content: center; border: none;">Nenhum item adicionado.</li>
-                            </ul>
-                            <button class="btn-action" style="width: 100%; font-size: 16px;" onclick="enviarPedidoLoja()">📤 Enviar Pedido Completo</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LOJAS: MEUS PEDIDOS -->
-                <div id="aba-meus-pedidos" class="sessao">
-                    <h3 style="color: #8B1E1E;">Status dos Meus Pedidos</h3>
-                    <div id="tabelaMeusPedidosContainer">Carregando...</div>
-                </div>
-
-                <!-- CÂMARA FRIA: PEDIDOS RECEBIDOS -->
-                <div id="aba-recebidos" class="sessao">
-                    <h3 style="color: #8B1E1E;">Pedidos Recebidos das Lojas</h3>
-                    <div id="tabelaRecebidosContainer">Carregando...</div>
-                </div>
-
-                <!-- CÂMARA FRIA: SOLICITAR PRODUÇÃO -->
-                <div id="aba-pedido" class="sessao">
-                    <h3 style="color: #8B1E1E;">Solicitar Produção de Itens</h3>
-                    <form id="formPedidoProd" style="background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin-top: 15px;" onsubmit="enviarPedidoProducao(event)">
-                        <div class="grid-filtros">
-                            <div class="form-control" style="margin-bottom:0;">
-                                <label>Filtrar Categoria:</label>
-                                <select id="filtroCatCamara" onchange="filtrarTelas('filtroCatCamara', 'buscaCamara', 'prodItemSelect')"></select>
-                            </div>
-                            <div class="form-control" style="margin-bottom:0;">
-                                <label>Pesquisar:</label>
-                                <input type="text" id="buscaCamara" placeholder="Nome do produto..." oninput="filtrarTelas('filtroCatCamara', 'buscaCamara', 'prodItemSelect')">
-                            </div>
-                        </div>
-                        <div class="form-control">
-                            <label>Selecionar Produto e Tamanho:</label>
-                            <select id="prodItemSelect" required><option value="">Carregando produtos...</option></select>
-                        </div>
-                        <div class="form-control">
-                            <label>Quantidade:</label>
-                            <input type="number" id="prodQtd" min="1" placeholder="Ex: 10" required>
-                        </div>
-                        <div class="form-control">
-                            <label>Enviar para o Setor de Produção:</label>
-                            <select id="prodDestino">
-                                <option value="Produção Fábrica">Produção Fábrica</option>
-                                <option value="Produção Matriz">Produção Matriz</option>
-                                <option value="Produção Docinhos">Produção Docinhos</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-action">Enviar Pedido para Produção</button>
-                    </form>
-                </div>
-
-                <!-- CÂMARA FRIA: DESPACHAR CAMINHÃO -->
-                <div id="aba-despachar" class="sessao">
-                    <h3 style="color: #8B1E1E;">Despachar Caminhão para Entrega</h3>
-                    <form id="formDespacho" style="background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin-top: 15px;" onsubmit="despacharCaminhao(event)">
-                        <div class="form-control">
-                            <label>Loja Destino:</label>
-                            <select id="despachoLoja">
-                                <option value="Loja Matriz">Loja Matriz</option>
-                                <option value="Jardim das Américas">Jardim das Américas</option>
-                                <option value="Shopping Pantanal">Shopping Pantanal</option>
-                                <option value="Várzea Grande Shopping">Várzea Grande Shopping</option>
-                            </select>
-                        </div>
-                        <div class="form-control"><label>Carga (Resumo):</label><input type="text" id="despachoItens" required></div>
-                        <div class="form-control"><label>Motorista:</label><input type="text" id="despachoMotorista" required></div>
-                        <button type="submit" class="btn-action">Confirmar Despacho do Caminhão</button>
-                    </form>
-                </div>
-
-                <!-- ADMIN (PRODUTOS) -->
-                <div id="aba-admin-produtos" class="sessao">
-                    <h3 style="color: #8B1E1E; margin-bottom: 15px;">Catálogo de Produtos</h3>
-                    <form id="formNovoProduto" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;" onsubmit="adicionarProduto(event)">
-                        <div style="display: flex; gap: 15px;">
-                            <div class="form-control" style="flex: 1;"><label>Categoria:</label><select id="prodCategoria" required><option value="Tortas">Tortas</option><option value="Sobremesas">Sobremesas</option><option value="Tortas Salgadas">Tortas Salgadas</option></select></div>
-                            <div class="form-control" style="flex: 2;"><label>Nome do Produto:</label><input type="text" id="prodNome" required></div>
-                            <div class="form-control" style="flex: 2;"><label>Tamanhos:</label><input type="text" id="prodTamanhos" placeholder="Ex: Mini, N°1" required></div>
-                        </div>
-                        <button type="submit" class="btn-action">Salvar Produto</button>
-                    </form>
-                    <div id="tabelaProdutosContainer">Carregando produtos...</div>
-                </div>
+        <div class="dash-content" id="mainContentArea">
+          <div id="boas-vindas" class="sessao active">
+            <div style="background: white; padding: 30px; border-radius: 8px">
+              <h3>Bem-vindo ao sistema de pedidos!</h3>
+              <p style="color: #666">
+                Selecione uma opção no menu lateral para começar.
+              </p>
             </div>
-        </main>
+          </div>
+
+          <!-- LOJAS: EMITIR PEDIDO -->
+          <div id="aba-loja-pedido" class="sessao">
+            <h3 style="color: #8b1e1e; margin-bottom: 5px">
+              Emitir Novo Pedido
+            </h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px">
+              O sistema enviará automaticamente os itens da Fábrica para a
+              Câmara Fria, e os demais direto para a Produção Matriz ou
+              Docinhos.
+            </p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap">
+              <form
+                id="formAdicionarItem"
+                style="
+                  background: white;
+                  padding: 20px;
+                  border-radius: 8px;
+                  flex: 1;
+                  min-width: 300px;
+                "
+                onsubmit="adicionarAoCarrinho(event)"
+              >
+                <div class="form-control">
+                  <label>Filtrar Categoria:</label>
+                  <select
+                    id="filtroCatLoja"
+                    onchange="
+                      document.getElementById('lojaProdutoInput').value = '';
+                      renderizarDropdown(
+                        'filtroCatLoja',
+                        'lojaProdutoInput',
+                        'listaProdutosLoja',
+                        '',
+                      );
+                    "
+                  ></select>
+                </div>
+                <div class="form-control custom-select-wrapper">
+                  <label>Produto (Digite para buscar ou selecione):</label>
+                  <input
+                    type="text"
+                    id="lojaProdutoInput"
+                    placeholder="Clique ou digite o nome do produto..."
+                    autocomplete="off"
+                    required
+                    onfocus="
+                      abrirDropdown(
+                        'filtroCatLoja',
+                        'lojaProdutoInput',
+                        'listaProdutosLoja',
+                        '',
+                      )
+                    "
+                    oninput="
+                      abrirDropdown(
+                        'filtroCatLoja',
+                        'lojaProdutoInput',
+                        'listaProdutosLoja',
+                        '',
+                      )
+                    "
+                  />
+                  <ul id="listaProdutosLoja" class="custom-dropdown"></ul>
+                </div>
+                <div class="form-control">
+                  <label>Quantidade:</label>
+                  <input
+                    type="number"
+                    id="lojaQtd"
+                    min="1"
+                    value="1"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn-action"
+                  style="background: #333; width: 100%"
+                >
+                  + Adicionar à Lista
+                </button>
+              </form>
+
+              <div
+                style="
+                  background: white;
+                  padding: 20px;
+                  border-radius: 8px;
+                  flex: 1;
+                  min-width: 300px;
+                  display: flex;
+                  flex-direction: column;
+                "
+              >
+                <h4 style="margin-bottom: 10px; color: #333">
+                  Lista do Pedido
+                </h4>
+                <ul
+                  id="listaCarrinho"
+                  class="lista-itens"
+                  style="
+                    flex: 1;
+                    margin-bottom: 15px;
+                    background: #f9f9f9;
+                    padding: 10px;
+                    border-radius: 4px;
+                    min-height: 120px;
+                  "
+                >
+                  <li
+                    style="color: #999; justify-content: center; border: none"
+                  >
+                    Nenhum item adicionado.
+                  </li>
+                </ul>
+                <button
+                  class="btn-action"
+                  style="width: 100%; font-size: 16px"
+                  onclick="enviarPedidoLoja()"
+                >
+                  📤 Enviar Pedido Completo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- LOJAS: MEUS PEDIDOS -->
+          <div id="aba-meus-pedidos" class="sessao">
+            <h3 style="color: #8b1e1e">Status dos Meus Pedidos</h3>
+            <div id="tabelaMeusPedidosContainer">Carregando...</div>
+          </div>
+
+          <!-- PAINEL DE PEDIDOS RECEBIDOS (Usado pela Câmara Fria, Prod Matriz e Prod Docinhos) -->
+          <div id="aba-recebidos" class="sessao">
+            <h3 style="color: #8b1e1e" id="tituloPedidosRecebidos">
+              Pedidos Recebidos das Lojas
+            </h3>
+            <div id="tabelaRecebidosContainer">Carregando...</div>
+          </div>
+
+          <!-- CÂMARA FRIA: SOLICITAR REPOSIÇÃO À FÁBRICA -->
+          <div id="aba-pedido" class="sessao">
+            <h3 style="color: #8b1e1e; margin-bottom: 5px">
+              Solicitar Produção para a Fábrica
+            </h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px">
+              Apenas produtos de responsabilidade da Produção Fábrica são
+              exibidos aqui.
+            </p>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap">
+              <form
+                id="formPedidoProd"
+                style="
+                  background: white;
+                  padding: 20px;
+                  border-radius: 8px;
+                  flex: 1;
+                  min-width: 300px;
+                "
+                onsubmit="adicionarCarrinhoCamara(event)"
+              >
+                <div class="form-control">
+                  <label>Filtrar Categoria:</label>
+                  <select
+                    id="filtroCatCamara"
+                    onchange="
+                      document.getElementById('prodItemInput').value = '';
+                      renderizarDropdown(
+                        'filtroCatCamara',
+                        'prodItemInput',
+                        'listaProdutosCamara',
+                        'Produção Fábrica',
+                      );
+                    "
+                  ></select>
+                </div>
+                <div class="form-control custom-select-wrapper">
+                  <label
+                    >Produto da Fábrica (Digite para buscar ou
+                    selecione):</label
+                  >
+                  <input
+                    type="text"
+                    id="prodItemInput"
+                    placeholder="Clique ou digite o nome do produto..."
+                    autocomplete="off"
+                    required
+                    onfocus="
+                      abrirDropdown(
+                        'filtroCatCamara',
+                        'prodItemInput',
+                        'listaProdutosCamara',
+                        'Produção Fábrica',
+                      )
+                    "
+                    oninput="
+                      abrirDropdown(
+                        'filtroCatCamara',
+                        'prodItemInput',
+                        'listaProdutosCamara',
+                        'Produção Fábrica',
+                      )
+                    "
+                  />
+                  <ul id="listaProdutosCamara" class="custom-dropdown"></ul>
+                </div>
+                <div class="form-control">
+                  <label>Quantidade:</label>
+                  <input
+                    type="number"
+                    id="prodQtd"
+                    min="1"
+                    value="1"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn-action"
+                  style="background: #333; width: 100%"
+                >
+                  + Adicionar ao Lote da Fábrica
+                </button>
+              </form>
+
+              <div
+                style="
+                  background: white;
+                  padding: 20px;
+                  border-radius: 8px;
+                  flex: 1;
+                  min-width: 300px;
+                  display: flex;
+                  flex-direction: column;
+                "
+              >
+                <h4 style="margin-bottom: 10px; color: #333">
+                  Lote para Produção Fábrica
+                </h4>
+                <ul
+                  id="listaCarrinhoCamara"
+                  class="lista-itens"
+                  style="
+                    flex: 1;
+                    margin-bottom: 15px;
+                    background: #f9f9f9;
+                    padding: 10px;
+                    border-radius: 4px;
+                    min-height: 120px;
+                  "
+                >
+                  <li
+                    style="color: #999; justify-content: center; border: none"
+                  >
+                    Nenhum item adicionado.
+                  </li>
+                </ul>
+                <button
+                  class="btn-action"
+                  style="width: 100%; font-size: 16px"
+                  onclick="enviarPedidoProducao()"
+                >
+                  🏭 Enviar Pedido para a Fábrica
+                </button>
+              </div>
+            </div>
+
+            <h3 style="color: #8b1e1e; margin-top: 30px">
+              Histórico de Pedidos Enviados à Fábrica
+            </h3>
+            <div id="tabelaPedidosFabricaCamara">Carregando...</div>
+          </div>
+
+          <!-- PRODUÇÃO FÁBRICA: PAINEL DE PEDIDOS DA CÂMARA FRIA -->
+          <div id="aba-prod-fabrica" class="sessao">
+            <h3 style="color: #8b1e1e">
+              Pedidos de Produção (Enviados pela Câmara Fria)
+            </h3>
+            <div id="tabelaFabricaContainer">Carregando...</div>
+          </div>
+
+          <!-- CÂMARA FRIA: DESPACHAR CAMINHÃO -->
+          <div id="aba-despachar" class="sessao">
+            <h3 style="color: #8b1e1e">Despachar Caminhão para Entrega</h3>
+            <form
+              id="formDespacho"
+              style="
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                max-width: 500px;
+                margin-top: 15px;
+              "
+              onsubmit="despacharCaminhao(event)"
+            >
+              <div class="form-control">
+                <label>Loja Destino:</label>
+                <select id="despachoLoja">
+                  <option value="Loja Matriz">Loja Matriz</option>
+                  <option value="Jardim das Américas">
+                    Jardim das Américas
+                  </option>
+                  <option value="Shopping Pantanal">Shopping Pantanal</option>
+                  <option value="Várzea Grande Shopping">
+                    Várzea Grande Shopping
+                  </option>
+                </select>
+              </div>
+              <div class="form-control">
+                <label>Carga (Resumo):</label
+                ><input
+                  type="text"
+                  id="despachoItens"
+                  placeholder="Ex: Pedido #1000 completo"
+                  required
+                />
+              </div>
+              <div class="form-control">
+                <label>Motorista:</label
+                ><input type="text" id="despachoMotorista" required />
+              </div>
+              <button type="submit" class="btn-action">
+                Confirmar Despacho do Caminhão
+              </button>
+            </form>
+          </div>
+
+          <!-- ADMIN (PRODUTOS) -->
+          <div id="aba-admin-produtos" class="sessao">
+            <h3 style="color: #8b1e1e; margin-bottom: 15px">
+              Catálogo de Produtos
+            </h3>
+            <form
+              id="formNovoProduto"
+              style="
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+              "
+              onsubmit="adicionarProduto(event)"
+            >
+              <h4 style="margin-bottom: 15px; color: #333">
+                Adicionar Novo Produto
+              </h4>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                  gap: 15px;
+                "
+              >
+                <div class="form-control">
+                  <label>Categoria:</label>
+                  <select id="prodCategoria" required>
+                    <option value="Tortas">Tortas</option>
+                    <option value="Sobremesas">Sobremesas</option>
+                    <option value="Tortas Salgadas">Tortas Salgadas</option>
+                    <option value="Docinhos">Docinhos</option>
+                  </select>
+                </div>
+                <div class="form-control">
+                  <label>Setor de Produção:</label>
+                  <select id="prodSetorProducao" required>
+                    <option value="Produção Fábrica">
+                      Produção Fábrica (Via Câmara Fria)
+                    </option>
+                    <option value="Produção Matriz">
+                      Produção Matriz (Direto)
+                    </option>
+                    <option value="Produção Docinhos">
+                      Produção Docinhos (Direto)
+                    </option>
+                  </select>
+                </div>
+                <div class="form-control">
+                  <label>Nome do Produto:</label>
+                  <input
+                    type="text"
+                    id="prodNome"
+                    placeholder="Ex: Torta Anjos"
+                    required
+                  />
+                </div>
+                <div class="form-control">
+                  <label>Tamanhos (por vírgula):</label>
+                  <input
+                    type="text"
+                    id="prodTamanhos"
+                    placeholder="Ex: Mini, N°1, N°2"
+                    required
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn-action">Salvar Produto</button>
+            </form>
+            <div id="tabelaProdutosContainer">Carregando produtos...</div>
+          </div>
+        </div>
+      </main>
     </div>
 
-    <!-- Modal para visualização do Pedido Completo -->
+    <!-- Modal para visualização e impressão do Pedido Completo -->
     <div id="modalPedido" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h3 id="modalTitulo" style="color: #8B1E1E; margin-bottom: 5px;">Comanda de Pedido</h3>
-                    <p style="font-size: 12px; color: #666;">Baba de Moça - Documento Interno</p>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-action btn-imprimir" style="background: #0056b3;" onclick="window.print()">🖨️️ Imprimir</button>
-                    <button class="btn-close" style="background: #ccc; color: #333; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="fecharModal()">Fechar</button>
-                </div>
-            </div>
-            <p><strong>Unidade Solicitante:</strong> <span id="modalLoja"></span></p>
-            <p><strong>Data e Hora:</strong> <span id="modalData"></span></p>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #333;">
-            <h4 style="margin-bottom: 10px;">Itens Solicitados:</h4>
-            <ul class="lista-itens" id="modalItens"></ul>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #333;">
-            <p style="text-align: center; font-size: 12px; color: #666; margin-top: 20px;">Assinatura do Responsável: ___________________________</p>
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h3 id="modalTitulo" style="color: #8b1e1e; margin-bottom: 5px">
+              Comanda de Pedido
+            </h3>
+            <p style="font-size: 12px; color: #666">
+              Baba de Moça - Documento Interno
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <button
+              class="btn-action btn-imprimir"
+              style="background: #0056b3"
+              onclick="window.print()"
+            >
+              🖨️ Imprimir
+            </button>
+            <button
+              class="btn-close"
+              style="
+                background: #ccc;
+                color: #333;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+              "
+              onclick="fecharModal()"
+            >
+              Fechar
+            </button>
+          </div>
         </div>
+        <p><strong>Solicitante:</strong> <span id="modalLoja"></span></p>
+        <p>
+          <strong>Setor Responsável:</strong> <span id="modalDestino"></span>
+        </p>
+        <p><strong>Data e Hora:</strong> <span id="modalData"></span></p>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #333" />
+        <h4 style="margin-bottom: 10px">Itens Solicitados:</h4>
+        <ul class="lista-itens" id="modalItens"></ul>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #333" />
+        <p
+          style="
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+          "
+        >
+          Assinatura do Responsável: ___________________________
+        </p>
+      </div>
     </div>
 
     <script>
-        const dadosUsuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-        let pedidosGlobais = []; 
-        let carrinhoAtual = []; 
-        let bancoProdutosGlobais = []; 
+      const dadosUsuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+      let pedidosGlobais = [];
+      let pedidosFabricaGlobais = [];
+      let carrinhoAtual = [];
+      let carrinhoCamara = [];
+      let bancoProdutosGlobais = [];
 
-        if (!dadosUsuario) {
-            window.location.href = 'index.html';
-        } else {
-            document.getElementById('welcomeTitle').textContent = `Painel: ${dadosUsuario.nome}`;
-            configurarMenuLateral();
+      if (!dadosUsuario) {
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("welcomeTitle").textContent =
+          `Painel: ${dadosUsuario.nome}`;
+        configurarMenuLateral();
+      }
+
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        localStorage.removeItem("usuarioLogado");
+        window.location.href = "index.html";
+      });
+
+      async function configurarMenuLateral() {
+        const menuUl = document.querySelector("#menuLateral ul");
+        const setor = dadosUsuario.setor;
+        await carregarBaseDeProdutos();
+
+        if (setor === "admin") {
+          menuUl.innerHTML += `
+                    <li onclick="mostrarSessao('aba-admin-produtos'); carregarAdminProdutos();">📝 Gerenciar Produtos</li>
+                    <li onclick="mostrarSessao('aba-recebidos'); carregarPedidosPorDestino('Todos');">📦 Todos Pedidos de Lojas</li>
+                    <li onclick="mostrarSessao('aba-pedido'); carregarDadosCamara();">🏭 Pedir p/ Fábrica (Câmara)</li>
+                    <li onclick="mostrarSessao('aba-prod-fabrica'); carregarPainelFabrica();">⚙️ Painel Produção Fábrica</li>
+                `;
+          mostrarSessao("aba-admin-produtos");
+          carregarAdminProdutos();
         }
 
-        document.getElementById('btnLogout').addEventListener('click', () => {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'index.html';
-        });
-
-        function configurarMenuLateral() {
-            const menuUl = document.querySelector('#menuLateral ul');
-            const setor = dadosUsuario.setor;
-
-            if (setor === 'admin') {
-                menuUl.innerHTML += `<li onclick="mostrarSessao('aba-admin-produtos')">📝 Gerenciar Produtos</li>`;
-                mostrarSessao('aba-admin-produtos');
-                carregarAdminProdutos();
-            }
-
-            if (setor.startsWith('loja_')) {
-                menuUl.innerHTML += `
+        if (setor.startsWith("loja_")) {
+          menuUl.innerHTML += `
                     <li onclick="mostrarSessao('aba-loja-pedido')">🛒 Emitir Pedido</li>
                     <li onclick="mostrarSessao('aba-meus-pedidos'); carregarMeusPedidosLoja();">📋 Meus Pedidos</li>
                 `;
-                mostrarSessao('aba-loja-pedido');
-                carregarBaseDeProdutos(); 
-            }
-            
-            if (setor === 'camara_fria' || setor === 'admin') {
-                menuUl.innerHTML += `
-                    <li onclick="mostrarSessao('aba-recebidos'); carregarDadosCamara();">📦 Pedidos Recebidos</li>
-                    <li onclick="mostrarSessao('aba-pedido')">🏭 Fazer Pedido (Produção)</li>
+          mostrarSessao("aba-loja-pedido");
+        }
+
+        if (setor === "camara_fria") {
+          menuUl.innerHTML += `
+                    <li onclick="mostrarSessao('aba-recebidos'); carregarPedidosPorDestino('Câmara Fria');">📦 Pedidos das Lojas (Fábrica)</li>
+                    <li onclick="mostrarSessao('aba-pedido'); carregarDadosCamara();">🏭 Pedir para Produção Fábrica</li>
                     <li onclick="mostrarSessao('aba-despachar')">🚚 Despachar Caminhão</li>
                 `;
-                if(setor === 'camara_fria') mostrarSessao('aba-recebidos');
-                carregarDadosCamara();
-                carregarBaseDeProdutos(); 
-            }
+          mostrarSessao("aba-recebidos");
+          carregarPedidosPorDestino("Câmara Fria");
         }
 
-        function mostrarSessao(idSessao) {
-            document.querySelectorAll('.sessao').forEach(el => el.classList.remove('active'));
-            const sessaoAtiva = document.getElementById(idSessao);
-            if (sessaoAtiva) sessaoAtiva.classList.add('active');
+        if (setor === "prod_matriz") {
+          menuUl.innerHTML += `<li onclick="mostrarSessao('aba-recebidos'); carregarPedidosPorDestino('Produção Matriz');">📦 Pedidos das Lojas (Matriz)</li>`;
+          mostrarSessao("aba-recebidos");
+          carregarPedidosPorDestino("Produção Matriz");
         }
 
-        // --- ATUALIZAÇÃO VISUAL DE BADGES ---
-        function getBadgeStatus(status) {
-            if(status === 'Recebido') return `<span class="status-badge st-recebido">Recebido</span>`;
-            if(status === 'Em Produção') return `<span class="status-badge st-producao">Em Produção</span>`;
-            if(status === 'Enviado') return `<span class="status-badge st-enviado">Enviado</span>`;
-            if(status === 'Finalizado') return `<span class="status-badge st-finalizado">Finalizado ✔️</span>`;
-            if(status === 'Cancelado') return `<span class="status-badge st-cancelado">Cancelado ❌</span>`;
-            return `<span class="status-badge">${status}</span>`;
+        if (setor === "prod_docinhos") {
+          menuUl.innerHTML += `<li onclick="mostrarSessao('aba-recebidos'); carregarPedidosPorDestino('Produção Docinhos');">🍬 Pedidos das Lojas (Docinhos)</li>`;
+          mostrarSessao("aba-recebidos");
+          carregarPedidosPorDestino("Produção Docinhos");
         }
 
-        async function alterarStatusPedido(id, novoStatus) {
-            if(novoStatus === 'Cancelado' && !confirm('Tem certeza que deseja cancelar este pedido?')) return;
-            
-            const res = await fetch('/api/pedidos/status', { 
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, novoStatus }) 
+        if (setor === "prod_fabrica") {
+          menuUl.innerHTML += `<li onclick="mostrarSessao('aba-prod-fabrica'); carregarPainelFabrica();">🏭 Pedidos da Câmara Fria</li>`;
+          mostrarSessao("aba-prod-fabrica");
+          carregarPainelFabrica();
+        }
+      }
+
+      function mostrarSessao(idSessao) {
+        document
+          .querySelectorAll(".sessao")
+          .forEach((el) => el.classList.remove("active"));
+        const sessaoAtiva = document.getElementById(idSessao);
+        if (sessaoAtiva) sessaoAtiva.classList.add("active");
+      }
+
+      function getBadgeStatus(status) {
+        if (status === "Recebido")
+          return `<span class="status-badge st-recebido">Recebido</span>`;
+        if (status === "Em Produção")
+          return `<span class="status-badge st-producao">Em Produção</span>`;
+        if (status === "Enviado")
+          return `<span class="status-badge st-enviado">Enviado</span>`;
+        if (status === "Finalizado")
+          return `<span class="status-badge st-finalizado">Finalizado ✔️</span>`;
+        if (status === "Cancelado")
+          return `<span class="status-badge st-cancelado">Cancelado ❌</span>`;
+        return `<span class="status-badge">${status}</span>`;
+      }
+
+      let mapaProdutos = {};
+
+      async function carregarBaseDeProdutos() {
+        try {
+          const res = await fetch("/api/produtos");
+          bancoProdutosGlobais = await res.json();
+          const categorias = [
+            ...new Set(bancoProdutosGlobais.map((p) => p.categoria)),
+          ];
+
+          const catLoja = document.getElementById("filtroCatLoja");
+          if (catLoja) {
+            catLoja.innerHTML = '<option value="">Todas as Categorias</option>';
+            categorias.forEach(
+              (c) =>
+                (catLoja.innerHTML += `<option value="${c}">${c}</option>`),
+            );
+            renderizarDropdown(
+              "filtroCatLoja",
+              "lojaProdutoInput",
+              "listaProdutosLoja",
+              "",
+            );
+          }
+          const catCamara = document.getElementById("filtroCatCamara");
+          if (catCamara) {
+            catCamara.innerHTML =
+              '<option value="">Todas as Categorias</option>';
+            categorias.forEach(
+              (c) =>
+                (catCamara.innerHTML += `<option value="${c}">${c}</option>`),
+            );
+            renderizarDropdown(
+              "filtroCatCamara",
+              "prodItemInput",
+              "listaProdutosCamara",
+              "Produção Fábrica",
+            );
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      function renderizarDropdown(idCat, idInput, idLista, filtroProducaoFixo) {
+        const cat = document.getElementById(idCat).value.toLowerCase();
+        const input = document.getElementById(idInput);
+        const termo = input.value.toLowerCase();
+        const ul = document.getElementById(idLista);
+        ul.innerHTML = "";
+
+        bancoProdutosGlobais.forEach((p) => {
+          const matchCat = cat === "" || p.categoria.toLowerCase() === cat;
+          const matchProd =
+            !filtroProducaoFixo || p.producao === filtroProducaoFixo;
+
+          if (matchCat && matchProd) {
+            p.tamanhos.forEach((tamanho) => {
+              const labelVisual =
+                p.tamanhos.length === 1 && tamanho === "Unidade"
+                  ? p.nome
+                  : `${p.nome} (${tamanho})`;
+              mapaProdutos[labelVisual] = {
+                nome: labelVisual,
+                producao: p.producao,
+              };
+
+              if (termo === "" || labelVisual.toLowerCase().includes(termo)) {
+                const li = document.createElement("li");
+                li.textContent = labelVisual;
+                li.onclick = () => {
+                  input.value = labelVisual;
+                  ul.style.display = "none";
+                };
+                ul.appendChild(li);
+              }
             });
-            if((await res.json()).success) {
-                if (dadosUsuario.setor.startsWith('loja_')) carregarMeusPedidosLoja();
-                else carregarDadosCamara();
+          }
+        });
+
+        if (ul.children.length === 0) {
+          ul.innerHTML = `<li style="color:#999; cursor:default;">Nenhum produto encontrado</li>`;
+        }
+      }
+
+      function abrirDropdown(idCat, idInput, idLista, filtroProducaoFixo) {
+        renderizarDropdown(idCat, idInput, idLista, filtroProducaoFixo);
+        document.getElementById(idLista).style.display = "block";
+      }
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".custom-select-wrapper")) {
+          document
+            .querySelectorAll(".custom-dropdown")
+            .forEach((ul) => (ul.style.display = "none"));
+        }
+      });
+
+      function adicionarAoCarrinho(e) {
+        e.preventDefault();
+        const input = document.getElementById("lojaProdutoInput");
+        const prodObj = mapaProdutos[input.value.trim()];
+        const qtd = document.getElementById("lojaQtd").value;
+
+        if (!prodObj)
+          return alert("Selecione um produto válido da lista sugerida.");
+
+        carrinhoAtual.push({
+          nome: prodObj.nome,
+          producao: prodObj.producao,
+          qtd: parseInt(qtd),
+        });
+        atualizarListaCarrinho();
+        input.value = "";
+        document.getElementById("lojaQtd").value = 1;
+        input.focus();
+      }
+
+      function atualizarListaCarrinho() {
+        const lista = document.getElementById("listaCarrinho");
+        if (carrinhoAtual.length === 0) {
+          lista.innerHTML = `<li style="color: #999; justify-content: center; border: none;">Nenhum item adicionado.</li>`;
+          return;
+        }
+        lista.innerHTML = "";
+        carrinhoAtual.forEach((item, index) => {
+          lista.innerHTML += `
+                    <li>
+                        <span><strong>${item.nome}</strong></span>
+                        <div>
+                            <strong>Qtd: ${item.qtd}</strong>
+                            <button onclick="removerDoCarrinho(${index})" style="margin-left: 10px; background: none; border: none; color: #d9534f; cursor: pointer;">❌</button>
+                        </div>
+                    </li>`;
+        });
+      }
+
+      function adicionarCarrinhoCamara(e) {
+        e.preventDefault();
+        const input = document.getElementById("prodItemInput");
+        const prodObj = mapaProdutos[input.value.trim()];
+        const qtd = document.getElementById("prodQtd").value;
+
+        if (!prodObj)
+          return alert("Selecione um produto válido da lista sugerida.");
+
+        carrinhoCamara.push({ nome: prodObj.nome, qtd: parseInt(qtd) });
+        atualizarCarrinhoCamara();
+        input.value = "";
+        document.getElementById("prodQtd").value = 1;
+        input.focus();
+      }
+
+      function removerDoCarrinho(index) {
+        carrinhoAtual.splice(index, 1);
+        atualizarListaCarrinho();
+      }
+
+      async function enviarPedidoLoja() {
+        if (carrinhoAtual.length === 0)
+          return alert("Adicione itens ao pedido.");
+        const res = await fetch("/api/lojas/pedido", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            loja: dadosUsuario.nome,
+            itens: carrinhoAtual,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          const resumo = data.pedidos
+            .map((p) => `#${p.id} (${p.destino})`)
+            .join(", ");
+          alert(`Pedidos gerados e direcionados com sucesso: ${resumo}`);
+          carrinhoAtual = [];
+          atualizarListaCarrinho();
+          carregarMeusPedidosLoja();
+        }
+      }
+
+      async function carregarMeusPedidosLoja() {
+        const res = await fetch("/api/pedidos");
+        const todos = await res.json();
+        const meusPedidos = todos.filter((p) => p.loja === dadosUsuario.nome);
+        pedidosGlobais = todos;
+
+        let html = `<table><thead><tr><th>ID</th><th>Setor Destino</th><th>Data e Hora</th><th>Status</th><th>Ações</th></tr></thead><tbody>`;
+        if (meusPedidos.length === 0) {
+          html += `<tr><td colspan="5">Nenhum pedido feito.</td></tr>`;
+        } else {
+          meusPedidos.reverse().forEach((p) => {
+            let acaoHTML = `<button class="btn-abrir" onclick="abrirPedidoCompleto(${p.id}, 'loja')">Ver Comanda</button>`;
+            if (p.status === "Enviado") {
+              acaoHTML += ` <button class="btn-action" style="background:#28a745; margin-left:10px;" onclick="alterarStatusPedido(${p.id}, 'Finalizado', '${p.destino}')">✅ Confirmar Recebimento</button>`;
             }
+            html += `<tr><td><strong>#${p.id}</strong></td><td><span class="tag-setor">${p.destino}</span></td><td>${p.data}</td><td>${getBadgeStatus(p.status)}</td><td>${acaoHTML}</td></tr>`;
+          });
         }
+        html += `</tbody></table>`;
+        document.getElementById("tabelaMeusPedidosContainer").innerHTML = html;
+      }
 
-        // --- LOJAS: MEUS PEDIDOS ---
-        async function carregarMeusPedidosLoja() {
-            try {
-                const res = await fetch('/api/pedidos');
-                const todosPedidos = await res.json();
-                const meusPedidos = todosPedidos.filter(p => p.loja === dadosUsuario.nome);
-                pedidosGlobais = meusPedidos;
+      // --- CÂMARA FRIA, PROD MATRIZ E PROD DOCINHOS: RECEBIMENTO DE LOJAS ---
+      async function carregarPedidosPorDestino(destinoFiltro) {
+        const res = await fetch("/api/pedidos");
+        const todos = await res.json();
+        pedidosGlobais = todos;
 
-                let html = `<table><thead><tr><th>ID do Pedido</th><th>Data e Hora</th><th>Status</th><th>Ações</th></tr></thead><tbody>`;
-                if(meusPedidos.length === 0) {
-                    html += `<tr><td colspan="4">Nenhum pedido feito.</td></tr>`;
-                } else {
-                    meusPedidos.reverse().forEach(p => {
-                        let acaoHTML = `<button class="btn-abrir" onclick="abrirPedidoCompleto(${p.id})">Ver Pedido</button>`;
-                        
-                        if (p.status === 'Enviado') {
-                            acaoHTML += ` <button class="btn-action" style="background:#28a745; margin-left:10px;" onclick="alterarStatusPedido(${p.id}, 'Finalizado')">✅ Confirmar Recebimento</button>`;
-                        }
+        const filtrados =
+          destinoFiltro === "Todos"
+            ? todos
+            : todos.filter((p) => p.destino === destinoFiltro);
+        document.getElementById("tituloPedidosRecebidos").textContent =
+          `Pedidos Recebidos - ${destinoFiltro}`;
 
-                        html += `<tr><td><strong>#${p.id}</strong></td><td>${p.data}</td><td>${getBadgeStatus(p.status)}</td><td>${acaoHTML}</td></tr>`;
-                    });
-                }
-                html += `</tbody></table>`;
-                document.getElementById('tabelaMeusPedidosContainer').innerHTML = html;
-            } catch(e) { console.error(e); }
+        let html = `<table><thead><tr><th>ID</th><th>Loja</th><th>Setor Responsável</th><th>Data e Hora</th><th>Status</th><th>Ações</th></tr></thead><tbody>`;
+        if (filtrados.length === 0) {
+          html += `<tr><td colspan="6">Nenhum pedido recebido para este setor.</td></tr>`;
+        } else {
+          filtrados.reverse().forEach((p) => {
+            let btnAcao = "";
+            let btnCancelar = "";
+
+            if (p.status === "Recebido") {
+              btnAcao = `<button class="btn-action" style="background:#0056b3;" onclick="alterarStatusPedido(${p.id}, 'Em Produção', '${destinoFiltro}')">⚙️ Iniciar Produção/Separação</button>`;
+              btnCancelar = `<button class="btn-action" style="background:#dc3545;" onclick="alterarStatusPedido(${p.id}, 'Cancelado', '${destinoFiltro}')">❌ Cancelar</button>`;
+            } else if (p.status === "Em Produção") {
+              btnAcao = `<button class="btn-action" style="background:#17a2b8;" onclick="alterarStatusPedido(${p.id}, 'Enviado', '${destinoFiltro}')">🚚 Marcar Enviado</button>`;
+              btnCancelar = `<button class="btn-action" style="background:#dc3545;" onclick="alterarStatusPedido(${p.id}, 'Cancelado', '${destinoFiltro}')">❌ Cancelar</button>`;
+            } else if (p.status === "Enviado") {
+              btnAcao = `<span style="font-size:12px; color:#666;">Aguardando loja confirmar</span>`;
+            } else if (p.status === "Finalizado") {
+              btnAcao = `<span style="font-size:12px; color:#28a745; font-weight:bold;">Recebimento Confirmado</span>`;
+            } else if (p.status === "Cancelado") {
+              btnAcao = `<span style="font-size:12px; color:#dc3545; font-weight:bold;">Pedido Cancelado</span>`;
+            }
+
+            html += `<tr>
+                        <td><strong>#${p.id}</strong></td>
+                        <td>${p.loja}</td>
+                        <td><span class="tag-setor">${p.destino}</span></td>
+                        <td>${p.data}</td>
+                        <td>${getBadgeStatus(p.status)}</td>
+                        <td>
+                            <div style="display: flex; gap: 5px; align-items: center;">
+                                ${btnAcao} ${btnCancelar}
+                                <button class="btn-abrir" onclick="abrirPedidoCompleto(${p.id}, 'loja')">Ver Arquivo</button>
+                            </div>
+                        </td>
+                    </tr>`;
+          });
         }
+        html += `</tbody></table>`;
+        document.getElementById("tabelaRecebidosContainer").innerHTML = html;
+      }
 
-        // --- CÂMARA FRIA: BOTÕES DE STATUS ---
-        async function carregarDadosCamara() {
-            try {
-                const res = await fetch('/api/camara-fria/dados');
-                const data = await res.json();
-                pedidosGlobais = data.pedidosLojas;
-                
-                let html = `<table><thead><tr><th>ID</th><th>Loja</th><th>Data e Hora</th><th>Status</th><th>Ações da Câmara</th></tr></thead><tbody>`;
-                if(pedidosGlobais.length === 0) {
-                    html += `<tr><td colspan="5">Nenhum pedido pendente.</td></tr>`;
-                } else {
-                    pedidosGlobais.reverse().forEach(p => {
-                        let btnAcao = '';
-                        let btnCancelar = '';
-
-                        // Lógica de botões explícita por status
-                        if (p.status === 'Recebido') {
-                            btnAcao = `<button class="btn-action" style="background:#0056b3;" onclick="alterarStatusPedido(${p.id}, 'Em Produção')">⚙️ Iniciar Produção</button>`;
-                            btnCancelar = `<button class="btn-action" style="background:#dc3545; margin-left:5px;" onclick="alterarStatusPedido(${p.id}, 'Cancelado')">❌ Cancelar</button>`;
-                        } else if (p.status === 'Em Produção') {
-                            btnAcao = `<button class="btn-action" style="background:#17a2b8;" onclick="alterarStatusPedido(${p.id}, 'Enviado')">🚚 Marcar Enviado</button>`;
-                            btnCancelar = `<button class="btn-action" style="background:#dc3545; margin-left:5px;" onclick="alterarStatusPedido(${p.id}, 'Cancelado')">❌ Cancelar</button>`;
-                        } else if (p.status === 'Enviado') {
-                            btnAcao = `<span style="font-size:12px; color:#666;">Aguardando loja confirmar</span>`;
-                        } else if (p.status === 'Finalizado') {
-                            btnAcao = `<span style="font-size:12px; color:#28a745; font-weight:bold;">Recebimento Confirmado</span>`;
-                        } else if (p.status === 'Cancelado') {
-                            btnAcao = `<span style="font-size:12px; color:#dc3545; font-weight:bold;">Pedido Cancelado</span>`;
-                        }
-
-                        html += `<tr>
-                            <td><strong>#${p.id}</strong></td>
-                            <td>${p.loja}</td>
-                            <td>${p.data}</td>
-                            <td>${getBadgeStatus(p.status)}</td>
-                            <td>
-                                <div style="display: flex; gap: 5px; align-items: center;">
-                                    ${btnAcao} ${btnCancelar}
-                                    <button class="btn-abrir" style="margin-left: 5px;" onclick="abrirPedidoCompleto(${p.id})">Ver Arquivo</button>
-                                </div>
-                            </td>
-                        </tr>`;
-                    });
-                }
-                html += `</tbody></table>`;
-                document.getElementById('tabelaRecebidosContainer').innerHTML = html;
-            } catch(e) { console.error(e); }
+      async function alterarStatusPedido(id, novoStatus, destinoAtual) {
+        if (
+          novoStatus === "Cancelado" &&
+          !confirm("Tem certeza que deseja cancelar este pedido?")
+        )
+          return;
+        const res = await fetch("/api/pedidos/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, novoStatus }),
+        });
+        if ((await res.json()).success) {
+          if (dadosUsuario.setor.startsWith("loja_")) carregarMeusPedidosLoja();
+          else carregarPedidosPorDestino(destinoAtual);
         }
+      }
 
-        // --- FUNÇÕES GERAIS ---
-        async function carregarBaseDeProdutos() {
-            try {
-                const res = await fetch('/api/produtos');
-                bancoProdutosGlobais = await res.json();
-                const categorias = [...new Set(bancoProdutosGlobais.map(p => p.categoria))];
-                
-                const catLoja = document.getElementById('filtroCatLoja');
-                if(catLoja) {
-                    catLoja.innerHTML = '<option value="">Todas as Categorias</option>';
-                    categorias.forEach(c => catLoja.innerHTML += `<option value="${c}">${c}</option>`);
-                    filtrarTelas('filtroCatLoja', 'buscaLoja', 'lojaProdutoSelect');
-                }
-                const catCamara = document.getElementById('filtroCatCamara');
-                if(catCamara) {
-                    catCamara.innerHTML = '<option value="">Todas as Categorias</option>';
-                    categorias.forEach(c => catCamara.innerHTML += `<option value="${c}">${c}</option>`);
-                    filtrarTelas('filtroCatCamara', 'buscaCamara', 'prodItemSelect');
-                }
-            } catch(e) { console.error(e); }
+      function atualizarCarrinhoCamara() {
+        const lista = document.getElementById("listaCarrinhoCamara");
+        if (carrinhoCamara.length === 0) {
+          lista.innerHTML = `<li style="color: #999; justify-content: center; border: none;">Nenhum item adicionado.</li>`;
+          return;
         }
+        lista.innerHTML = "";
+        carrinhoCamara.forEach((item, i) => {
+          lista.innerHTML += `<li><span>${item.nome}</span><div><strong>Qtd: ${item.qtd}</strong> <button onclick="carrinhoCamara.splice(${i},1);atualizarCarrinhoCamara()" style="border:none;background:none;cursor:pointer;">❌</button></div></li>`;
+        });
+      }
 
-        function filtrarTelas(idCat, idBusca, idSelectDestino) {
-            const cat = document.getElementById(idCat).value.toLowerCase();
-            const busca = document.getElementById(idBusca).value.toLowerCase();
-            const select = document.getElementById(idSelectDestino);
-            select.innerHTML = '<option value="" disabled selected>Escolha o produto e tamanho...</option>';
-            bancoProdutosGlobais.forEach(p => {
-                const matchCat = cat === '' || p.categoria.toLowerCase() === cat;
-                const matchBusca = busca === '' || p.nome.toLowerCase().includes(busca);
-                if(matchCat && matchBusca) {
-                    p.tamanhos.forEach(tamanho => { select.innerHTML += `<option value="${p.nome} - ${tamanho}">${p.nome} (${tamanho})</option>`; });
-                }
+      async function enviarPedidoProducao() {
+        if (carrinhoCamara.length === 0)
+          return alert("Adicione itens ao lote para a Fábrica.");
+        const res = await fetch("/api/camara-fria/pedir-producao", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ itens: carrinhoCamara }),
+        });
+        if ((await res.json()).success) {
+          alert("Pedido enviado para a Produção Fábrica!");
+          carrinhoCamara = [];
+          atualizarCarrinhoCamara();
+          carregarDadosCamara();
+        }
+      }
+
+      async function carregarDadosCamara() {
+        const res = await fetch("/api/camara-fria/dados");
+        const data = await res.json();
+        pedidosFabricaGlobais = data.pedidosProducao;
+
+        let html = `<table><thead><tr><th>ID</th><th>Destino</th><th>Data e Hora</th><th>Status</th><th>Ação</th></tr></thead><tbody>`;
+        if (pedidosFabricaGlobais.length === 0) {
+          html += `<tr><td colspan="5">Nenhum pedido enviado à fábrica ainda.</td></tr>`;
+        } else {
+          pedidosFabricaGlobais
+            .slice()
+            .reverse()
+            .forEach((p) => {
+              html += `<tr><td><strong>#${p.id}</strong></td><td>${p.destino}</td><td>${p.data}</td><td>${getBadgeStatus(p.status)}</td><td><button class="btn-abrir" onclick="abrirPedidoCompleto(${p.id}, 'fabrica')">Ver Comanda</button></td></tr>`;
             });
         }
+        html += `</tbody></table>`;
+        document.getElementById("tabelaPedidosFabricaCamara").innerHTML = html;
+      }
 
-        function adicionarAoCarrinho(e) {
-            e.preventDefault();
-            const produtoSelecionado = document.getElementById('lojaProdutoSelect').value;
-            const qtd = document.getElementById('lojaQtd').value;
-            if(!produtoSelecionado) return alert("Selecione um produto da lista.");
-            carrinhoAtual.push({ nome: produtoSelecionado, qtd: parseInt(qtd) });
-            atualizarListaCarrinho();
-            document.getElementById('lojaQtd').value = 1;
-        }
+      // --- PAINEL DA PRODUÇÃO FÁBRICA ---
+      async function carregarPainelFabrica() {
+        const res = await fetch("/api/camara-fria/dados");
+        const data = await res.json();
+        pedidosFabricaGlobais = data.pedidosProducao;
 
-        function atualizarListaCarrinho() {
-            const lista = document.getElementById('listaCarrinho');
-            if(carrinhoAtual.length === 0) {
-                lista.innerHTML = `<li style="color: #999; justify-content: center; border: none;">Nenhum item adicionado.</li>`;
-                return;
-            }
-            lista.innerHTML = '';
-            carrinhoAtual.forEach((item, index) => {
-                lista.innerHTML += `<li><span>${item.nome}</span> <div><strong>Qtd: ${item.qtd}</strong><button onclick="removerDoCarrinho(${index})" style="margin-left: 10px; background: none; border: none; color: #d9534f; cursor: pointer;">❌</button></div></li>`;
+        let html = `<table><thead><tr><th>ID</th><th>Solicitante</th><th>Data e Hora</th><th>Status</th><th>Ações da Fábrica</th></tr></thead><tbody>`;
+        if (pedidosFabricaGlobais.length === 0) {
+          html += `<tr><td colspan="5">Nenhum pedido da Câmara Fria no momento.</td></tr>`;
+        } else {
+          pedidosFabricaGlobais
+            .slice()
+            .reverse()
+            .forEach((p) => {
+              let btn = "";
+              if (p.status === "Recebido")
+                btn = `<button class="btn-action" style="background:#0056b3;" onclick="statusFabrica(${p.id}, 'Em Produção')">⚙️ Iniciar Produção</button>`;
+              else if (p.status === "Em Produção")
+                btn = `<button class="btn-action" style="background:#28a745;" onclick="statusFabrica(${p.id}, 'Finalizado')">✔️ Concluir e Enviar p/ Câmara</button>`;
+
+              html += `<tr>
+                        <td><strong>#${p.id}</strong></td>
+                        <td>${p.origem}</td>
+                        <td>${p.data}</td>
+                        <td>${getBadgeStatus(p.status)}</td>
+                        <td>${btn} <button class="btn-abrir" onclick="abrirPedidoCompleto(${p.id}, 'fabrica')">Ver Comanda</button></td>
+                    </tr>`;
             });
         }
+        html += `</tbody></table>`;
+        document.getElementById("tabelaFabricaContainer").innerHTML = html;
+      }
 
-        function removerDoCarrinho(index) { carrinhoAtual.splice(index, 1); atualizarListaCarrinho(); }
+      async function statusFabrica(id, novoStatus) {
+        await fetch("/api/producao-fabrica/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, novoStatus }),
+        });
+        carregarPainelFabrica();
+      }
 
-        async function enviarPedidoLoja() {
-            if(carrinhoAtual.length === 0) return alert("Adicione itens ao pedido.");
-            const res = await fetch('/api/lojas/pedido', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ loja: dadosUsuario.nome, itens: carrinhoAtual }) });
-            if((await res.json()).success) { alert("Pedido enviado com sucesso!"); carrinhoAtual = []; atualizarListaCarrinho(); carregarMeusPedidosLoja(); }
+      // --- MODAL E IMPRESSÃO ---
+      function abrirPedidoCompleto(idPedido, tipo) {
+        const listaBusca =
+          tipo === "fabrica" ? pedidosFabricaGlobais : pedidosGlobais;
+        const pedido = listaBusca.find((p) => p.id === idPedido);
+        if (!pedido) return;
+
+        document.getElementById("modalTitulo").textContent =
+          `Comanda #${pedido.id}`;
+        document.getElementById("modalLoja").textContent =
+          pedido.loja || pedido.origem;
+        document.getElementById("modalDestino").textContent =
+          pedido.destino || "Câmara Fria";
+        document.getElementById("modalData").textContent = pedido.data;
+
+        const listaItens = document.getElementById("modalItens");
+        listaItens.innerHTML = "";
+        pedido.itens.forEach((item) => {
+          listaItens.innerHTML += `<li><span>${item.nome}</span> <strong>Qtd: ${item.qtd}</strong></li>`;
+        });
+        document.getElementById("modalPedido").style.display = "flex";
+      }
+
+      function fecharModal() {
+        document.getElementById("modalPedido").style.display = "none";
+      }
+
+      async function despacharCaminhao(e) {
+        e.preventDefault();
+        const lojaDestino = document.getElementById("despachoLoja").value;
+        const itens = document.getElementById("despachoItens").value;
+        const motorista = document.getElementById("despachoMotorista").value;
+        const res = await fetch("/api/camara-fria/despachar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lojaDestino, itens, motorista }),
+        });
+        if ((await res.json()).success) {
+          alert("Caminhão despachado!");
+          document.getElementById("formDespacho").reset();
         }
+      }
 
-        function abrirPedidoCompleto(idPedido) {
-            const pedido = pedidosGlobais.find(p => p.id === idPedido);
-            if(!pedido) return;
-            document.getElementById('modalTitulo').textContent = `Comanda #${pedido.id}`;
-            document.getElementById('modalLoja').textContent = pedido.loja;
-            document.getElementById('modalData').textContent = pedido.data;
-            const listaItens = document.getElementById('modalItens');
-            listaItens.innerHTML = '';
-            pedido.itens.forEach(item => { listaItens.innerHTML += `<li><span>${item.nome}</span> <strong>Qtd: ${item.qtd}</strong></li>`; });
-            document.getElementById('modalPedido').style.display = 'flex';
+      // --- ADMIN: PRODUTOS ---
+      async function carregarAdminProdutos() {
+        const res = await fetch("/api/produtos");
+        const produtos = await res.json();
+        let html = `<table><thead><tr><th>ID</th><th>Categoria</th><th>Setor de Produção</th><th>Produto</th><th>Tamanhos</th></tr></thead><tbody>`;
+        produtos.forEach((p) => {
+          html += `<tr>
+                    <td>#${p.id}</td>
+                    <td><span class="tag-setor">${p.categoria}</span></td>
+                    <td><strong>${p.producao}</strong></td>
+                    <td>${p.nome}</td>
+                    <td>${p.tamanhos.join(" | ")}</td>
+                </tr>`;
+        });
+        html += `</tbody></table>`;
+        document.getElementById("tabelaProdutosContainer").innerHTML = html;
+      }
+
+      async function adicionarProduto(e) {
+        e.preventDefault();
+        const categoria = document.getElementById("prodCategoria").value;
+        const producao = document.getElementById("prodSetorProducao").value;
+        const nome = document.getElementById("prodNome").value;
+        const tamanhos = document.getElementById("prodTamanhos").value;
+        const res = await fetch("/api/produtos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ categoria, nome, tamanhos, producao }),
+        });
+        if (res.ok) {
+          document.getElementById("formNovoProduto").reset();
+          await carregarBaseDeProdutos();
+          carregarAdminProdutos();
+          alert("Produto adicionado com sucesso!");
         }
-
-        function fecharModal() { document.getElementById('modalPedido').style.display = 'none'; }
-
-        async function enviarPedidoProducao(e) {
-            e.preventDefault();
-            const item = document.getElementById('prodItemSelect').value;
-            const qtd = document.getElementById('prodQtd').value;
-            const destinoProducao = document.getElementById('prodDestino').value;
-            if(!item) return alert("Selecione um produto.");
-            const res = await fetch('/api/camara-fria/pedir-producao', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item, qtd, destinoProducao }) });
-            if((await res.json()).success) { alert('Pedido enviado à ' + destinoProducao + ' com sucesso!'); document.getElementById('prodQtd').value = ''; }
-        }
-
-        async function despacharCaminhao(e) {
-            e.preventDefault();
-            const lojaDestino = document.getElementById('despachoLoja').value;
-            const itens = document.getElementById('despachoItens').value;
-            const motorista = document.getElementById('despachoMotorista').value;
-            const res = await fetch('/api/camara-fria/despachar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lojaDestino, itens, motorista }) });
-            if((await res.json()).success) { alert('Caminhão despachado!'); document.getElementById('formDespacho').reset(); }
-        }
-
-        async function carregarAdminProdutos() {
-            try {
-                const res = await fetch('/api/produtos');
-                const produtos = await res.json();
-                let html = `<table><thead><tr><th>ID</th><th>Categoria</th><th>Produto</th><th>Tamanhos Disponíveis</th></tr></thead><tbody>`;
-                produtos.forEach(p => { html += `<tr><td>#${p.id}</td><td><span style="background: #F3D1D1; color: #8B1E1E; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">${p.categoria}</span></td><td><strong>${p.nome}</strong></td><td>${p.tamanhos.join(' | ')}</td></tr>`; });
-                html += `</tbody></table>`;
-                document.getElementById('tabelaProdutosContainer').innerHTML = html;
-            } catch(e) { console.error(e); }
-        }
-
-        async function adicionarProduto(e) {
-            e.preventDefault();
-            const categoria = document.getElementById('prodCategoria').value;
-            const nome = document.getElementById('prodNome').value;
-            const tamanhos = document.getElementById('prodTamanhos').value;
-            const res = await fetch('/api/produtos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ categoria, nome, tamanhos }) });
-            if(res.ok) { document.getElementById('formNovoProduto').reset(); carregarAdminProdutos(); alert('Produto adicionado com sucesso!'); }
-        }
+      }
     </script>
-</body>
+  </body>
 </html>

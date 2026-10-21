@@ -8,7 +8,8 @@
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 2,
@@ -18,7 +19,8 @@
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 3,
@@ -28,7 +30,8 @@
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 4,
@@ -38,7 +41,8 @@
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 5,
@@ -48,7 +52,8 @@
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 6,
@@ -58,7 +63,8 @@
         "350g",
         "700g",
         "1,4kg"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 7,
@@ -68,7 +74,8 @@
         "350g",
         "700g",
         "1,4kg"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 8,
@@ -78,7 +85,8 @@
         "350g",
         "700g",
         "1,4kg"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 9,
@@ -87,7 +95,8 @@
       "tamanhos": [
         "Pequeno",
         "Grande"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
       "id": 10,
@@ -96,17 +105,48 @@
       "tamanhos": [
         "Pequeno",
         "Grande"
-      ]
+      ],
+      "producao": "Produção Fábrica"
     },
     {
-      "id": 1790636906219,
+      "id": 11,
       "categoria": "Tortas",
-      "nome": "Torta Casadinho",
+      "nome": "Torta Anjos",
       "tamanhos": [
         "Mini",
         "N°1",
         "N°2"
-      ]
+      ],
+      "producao": "Produção Matriz"
+    },
+    {
+      "id": 12,
+      "categoria": "Tortas",
+      "nome": "Torta 4 Leites de Morango",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Matriz"
+    },
+    {
+      "id": 13,
+      "categoria": "Docinhos",
+      "nome": "Brigadeiro",
+      "tamanhos": [
+        "Unidade"
+      ],
+      "producao": "Produção Docinhos"
+    },
+    {
+      "id": 14,
+      "categoria": "Docinhos",
+      "nome": "Beijinho",
+      "tamanhos": [
+        "Unidade"
+      ],
+      "producao": "Produção Docinhos"
     }
   ],
   "pedidosLojas": [
@@ -127,7 +167,7 @@
       ]
     },
     {
-      "id": 1790637364944,
+      "id": 1002,
       "loja": "Loja Matriz",
       "data": "28/09/2026, 20:16:04",
       "status": "Pendente",
@@ -155,7 +195,7 @@
       ]
     },
     {
-      "id": 1790637991874,
+      "id": 1003,
       "loja": "Shopping Pantanal",
       "data": "28/09/2026, 20:26:31",
       "status": "Pendente",
@@ -191,7 +231,7 @@
       ]
     },
     {
-      "id": 1790637991875,
+      "id": 1004,
       "loja": "Loja Matriz",
       "data": "29/09/2026, 12:08:49",
       "status": "Finalizado",
@@ -207,6 +247,68 @@
         {
           "nome": "Torta Brigadeiro - N°1",
           "qtd": 5
+        }
+      ]
+    },
+    {
+      "id": 1005,
+      "loja": "Loja Matriz",
+      "destino": "Câmara Fria",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Bombom (Mini)",
+          "qtd": 3,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Abacaxi com Coco (N°1)",
+          "qtd": 2,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Quatro Leites (N°1)",
+          "qtd": 2,
+          "producao": "Produção Fábrica"
+        }
+      ]
+    },
+    {
+      "id": 1006,
+      "loja": "Loja Matriz",
+      "destino": "Produção Matriz",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Anjos (N°1)",
+          "qtd": 4,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta Anjos (Mini)",
+          "qtd": 5,
+          "producao": "Produção Matriz"
+        }
+      ]
+    },
+    {
+      "id": 1007,
+      "loja": "Loja Matriz",
+      "destino": "Produção Docinhos",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Brigadeiro (Unidade)",
+          "qtd": 50,
+          "producao": "Produção Docinhos"
+        },
+        {
+          "nome": "Beijinho (Unidade)",
+          "qtd": 40,
+          "producao": "Produção Docinhos"
         }
       ]
     }
