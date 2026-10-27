@@ -1,0 +1,509 @@
+{
+  "produtos": [
+    {
+      "id": 1,
+      "categoria": "Tortas",
+      "nome": "Torta Brigadeiro",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 2,
+      "categoria": "Tortas",
+      "nome": "Torta Bombom",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 3,
+      "categoria": "Tortas",
+      "nome": "Torta Abacaxi com Coco",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 4,
+      "categoria": "Tortas",
+      "nome": "Torta Dois Amores",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 5,
+      "categoria": "Tortas",
+      "nome": "Torta Quatro Leites",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 6,
+      "categoria": "Sobremesas",
+      "nome": "Pave Paulista",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 7,
+      "categoria": "Sobremesas",
+      "nome": "Cassata de Bombom",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 8,
+      "categoria": "Sobremesas",
+      "nome": "Banana Caramelada",
+      "tamanhos": [
+        "350g",
+        "700g",
+        "1,4kg"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 9,
+      "categoria": "Tortas Salgadas",
+      "nome": "Empadao de Frango",
+      "tamanhos": [
+        "Pequeno",
+        "Grande"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 10,
+      "categoria": "Tortas Salgadas",
+      "nome": "Empadao de Palmito",
+      "tamanhos": [
+        "Pequeno",
+        "Grande"
+      ],
+      "producao": "Produção Fábrica"
+    },
+    {
+      "id": 11,
+      "categoria": "Tortas",
+      "nome": "Torta Anjos",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Matriz"
+    },
+    {
+      "id": 12,
+      "categoria": "Tortas",
+      "nome": "Torta 4 Leites de Morango",
+      "tamanhos": [
+        "Mini",
+        "N°1",
+        "N°2"
+      ],
+      "producao": "Produção Matriz"
+    },
+    {
+      "id": 13,
+      "categoria": "Docinhos",
+      "nome": "Brigadeiro",
+      "tamanhos": [
+        "Unidade"
+      ],
+      "producao": "Produção Docinhos"
+    },
+    {
+      "id": 14,
+      "categoria": "Docinhos",
+      "nome": "Beijinho",
+      "tamanhos": [
+        "Unidade"
+      ],
+      "producao": "Produção Docinhos"
+    }
+  ],
+  "pedidosLojas": [
+    {
+      "id": 1001,
+      "loja": "Loja Matriz",
+      "data": "28/09/2026",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Bombom N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Bombom Mini",
+          "qtd": 2
+        }
+      ]
+    },
+    {
+      "id": 1002,
+      "loja": "Loja Matriz",
+      "data": "28/09/2026, 20:16:04",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro - N°1",
+          "qtd": 4
+        },
+        {
+          "nome": "Cassata de Bombom - 700g",
+          "qtd": 3
+        },
+        {
+          "nome": "Torta Dois Amores - N°2",
+          "qtd": 1
+        },
+        {
+          "nome": "Torta Brigadeiro - Mini",
+          "qtd": 6
+        },
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        }
+      ]
+    },
+    {
+      "id": 1003,
+      "loja": "Shopping Pantanal",
+      "data": "28/09/2026, 20:26:31",
+      "status": "Pendente",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro - N°2",
+          "qtd": 3
+        },
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Abacaxi com Coco - Mini",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Dois Amores - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Casadinho - Mini",
+          "qtd": 3
+        },
+        {
+          "nome": "Cassata de Bombom - 350g",
+          "qtd": 3
+        },
+        {
+          "nome": "Empadao de Frango - Grande",
+          "qtd": 3
+        }
+      ]
+    },
+    {
+      "id": 1004,
+      "loja": "Loja Matriz",
+      "data": "29/09/2026, 12:08:49",
+      "status": "Finalizado",
+      "itens": [
+        {
+          "nome": "Torta Bombom - N°1",
+          "qtd": 5
+        },
+        {
+          "nome": "Torta Brigadeiro - Mini",
+          "qtd": 4
+        },
+        {
+          "nome": "Torta Brigadeiro - N°1",
+          "qtd": 5
+        }
+      ]
+    },
+    {
+      "id": 1005,
+      "loja": "Loja Matriz",
+      "destino": "Câmara Fria",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Finalizado",
+      "itens": [
+        {
+          "nome": "Torta Bombom (Mini)",
+          "qtd": 3,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Abacaxi com Coco (N°1)",
+          "qtd": 2,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Quatro Leites (N°1)",
+          "qtd": 2,
+          "producao": "Produção Fábrica"
+        }
+      ]
+    },
+    {
+      "id": 1006,
+      "loja": "Loja Matriz",
+      "destino": "Produção Matriz",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Anjos (N°1)",
+          "qtd": 4,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta Anjos (Mini)",
+          "qtd": 5,
+          "producao": "Produção Matriz"
+        }
+      ]
+    },
+    {
+      "id": 1007,
+      "loja": "Loja Matriz",
+      "destino": "Produção Docinhos",
+      "data": "21/10/2026, 14:09:55",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Brigadeiro (Unidade)",
+          "qtd": 50,
+          "producao": "Produção Docinhos"
+        },
+        {
+          "nome": "Beijinho (Unidade)",
+          "qtd": 40,
+          "producao": "Produção Docinhos"
+        }
+      ]
+    },
+    {
+      "loja": "Loja Matriz",
+      "destino": "Câmara Fria",
+      "data": "22/10/2026, 12:29:57",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro (Mini)",
+          "qtd": 5,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Brigadeiro (N°1)",
+          "qtd": 3,
+          "producao": "Produção Fábrica"
+        }
+      ],
+      "id": 1008
+    },
+    {
+      "loja": "Loja Matriz",
+      "destino": "Produção Matriz",
+      "data": "22/10/2026, 12:29:57",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Anjos (N°1)",
+          "qtd": 4,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta Anjos (Mini)",
+          "qtd": 2,
+          "producao": "Produção Matriz"
+        }
+      ],
+      "id": 1009
+    },
+    {
+      "loja": "Loja Matriz",
+      "destino": "Produção Docinhos",
+      "data": "22/10/2026, 12:29:57",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Brigadeiro",
+          "qtd": 20,
+          "producao": "Produção Docinhos"
+        },
+        {
+          "nome": "Beijinho",
+          "qtd": 20,
+          "producao": "Produção Docinhos"
+        }
+      ],
+      "id": 1010
+    },
+    {
+      "id": 1011,
+      "loja": "Várzea Grande Shopping",
+      "destino": "Câmara Fria",
+      "data": "27/10/2026, 13:54:46",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro (N°1)",
+          "qtd": 1,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Bombom (Mini)",
+          "qtd": 10,
+          "producao": "Produção Fábrica"
+        }
+      ]
+    },
+    {
+      "id": 1012,
+      "loja": "Várzea Grande Shopping",
+      "destino": "Produção Matriz",
+      "data": "27/10/2026, 13:54:46",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta 4 Leites de Morango (Mini)",
+          "qtd": 3,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta Anjos (Mini)",
+          "qtd": 4,
+          "producao": "Produção Matriz"
+        }
+      ]
+    },
+    {
+      "id": 1013,
+      "loja": "Várzea Grande Shopping",
+      "destino": "Produção Docinhos",
+      "data": "27/10/2026, 13:54:46",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Brigadeiro",
+          "qtd": 5,
+          "producao": "Produção Docinhos"
+        },
+        {
+          "nome": "Beijinho",
+          "qtd": 10,
+          "producao": "Produção Docinhos"
+        }
+      ]
+    },
+    {
+      "id": 1014,
+      "loja": "Jardim das Américas",
+      "destino": "Câmara Fria",
+      "data": "27/10/2026, 13:55:38",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Brigadeiro (N°2)",
+          "qtd": 2,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Brigadeiro (N°1)",
+          "qtd": 1,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Brigadeiro (Mini)",
+          "qtd": 1,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Bombom (Mini)",
+          "qtd": 1,
+          "producao": "Produção Fábrica"
+        },
+        {
+          "nome": "Torta Bombom (Mini)",
+          "qtd": 1,
+          "producao": "Produção Fábrica"
+        }
+      ]
+    },
+    {
+      "id": 1015,
+      "loja": "Jardim das Américas",
+      "destino": "Produção Matriz",
+      "data": "27/10/2026, 13:55:38",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Torta Anjos (Mini)",
+          "qtd": 1,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta Anjos (N°1)",
+          "qtd": 1,
+          "producao": "Produção Matriz"
+        },
+        {
+          "nome": "Torta 4 Leites de Morango (N°1)",
+          "qtd": 1,
+          "producao": "Produção Matriz"
+        }
+      ]
+    },
+    {
+      "id": 1016,
+      "loja": "Jardim das Américas",
+      "destino": "Produção Docinhos",
+      "data": "27/10/2026, 13:55:38",
+      "status": "Recebido",
+      "itens": [
+        {
+          "nome": "Brigadeiro",
+          "qtd": 1,
+          "producao": "Produção Docinhos"
+        },
+        {
+          "nome": "Beijinho",
+          "qtd": 1,
+          "producao": "Produção Docinhos"
+        }
+      ]
+    }
+  ],
+  "pedidosProducao": [],
+  "caminhoesDespachados": []
+}
